@@ -1,13 +1,32 @@
-<div class="container">
-  <nav class="navbar navbar-light bg-light">
-    <span class="navbar-brand mb-0 h1">Navbar</span>
-  </nav>
-  <div class="row">
-    <div class="col">
-      Hi
+<nav class="navbar sticky-top navbar-light">
+  <span class="m-2 title">FHIR Starter</span>
+  <select class="form-select" aria-label="Resource select" (change)="onSelect($event)">
+    <option selected>Select a resource:</option>
+    <option [value]="resource" *ngFor="let resource of resources">
+      {{ resource }}
+    </option>
+  </select>
+</nav>
+<div class="container pt-5">
+  <div class="row justify-content-between">
+    <div class="col-12 col-md-5">
+      <p>Resource fields:</p>
+      <form (submit)="onSubmit($event)">
+        <ng-container *ngFor="let field of completeObject.properties | keyvalue; let i = index">
+          <div class="row">
+            <label for="{{field.key}}" [ngClass]="{'required' : completeObject.required?.includes(field.key)}">{{field.key}}: </label>
+            <input id="{{field.key}}" name="{{field.key}}" type="text" class="form-control" [(ngModel)]="jsonObject[field.key]"
+              [attr.required]="completeObject.required?.includes(field.key)">
+          </div>
+        </ng-container>
+        <button type="submit" class="btn btn-success mt-3">Create FHIR Resource</button>
+      </form>
     </div>
-    <div class="col">
-      Bye
+    <div class="col-12 col-md-5">
+      <p>Resource FHIR Object:</p>
+      <textarea [rows]="objectLength" cols="50" class="form-control">
+        {{ jsonString }}
+      </textarea>
     </div>
   </div> 
 </div>
