@@ -15,6 +15,9 @@
         <ng-container *ngFor="let field of completeObject.properties | keyvalue; let i = index">
           <div class="row">
             <label for="{{field.key}}" [ngClass]="{'required' : completeObject.required?.includes(field.key)}">{{field.key}}: </label>
+            <!-- <button type="button" class="btn btn-secondary" data-toggle="tooltip" data-placement="right" [title]="completeObject?.properties?.[field.key]?.description">
+              i
+            </button> -->
             <input id="{{field.key}}" name="{{field.key}}" type="text" class="form-control" [(ngModel)]="jsonObject[field.key]"
               [attr.required]="completeObject.required?.includes(field.key)">
           </div>
