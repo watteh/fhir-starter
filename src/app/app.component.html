@@ -11,24 +11,24 @@
   <div class="row justify-content-between">
     <div class="col-12 col-md-5">
       <p>Resource fields:</p>
-      <form (submit)="onSubmit($event)">
+      <form>
         <ng-container *ngFor="let field of completeObject.properties | keyvalue; let i = index">
           <div class="row">
             <label for="{{field.key}}" [ngClass]="{'required' : completeObject.required?.includes(field.key)}">{{field.key}}: </label>
             <!-- <button type="button" class="btn btn-secondary" data-toggle="tooltip" data-placement="right" [title]="completeObject?.properties?.[field.key]?.description">
               i
             </button> -->
-            <input id="{{field.key}}" name="{{field.key}}" type="text" class="form-control" [(ngModel)]="jsonObject[field.key]"
+            <input id="{{field.key}}" name="{{field.key}}" type="{{field.value.$ref}}" class="form-control" [(ngModel)]="jsonObject[field.key]"
               [attr.required]="completeObject.required?.includes(field.key)">
+            <span>{{field.value.$ref}}</span>
           </div>
         </ng-container>
-        <button type="submit" class="btn btn-success mt-3">Create FHIR Resource</button>
       </form>
     </div>
     <div class="col-12 col-md-5">
       <p>Resource FHIR Object:</p>
       <textarea [rows]="objectLength" cols="50" class="form-control">
-        {{ jsonString }}
+        {{ jsonObject | json }}
       </textarea>
     </div>
   </div> 

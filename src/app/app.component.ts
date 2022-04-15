@@ -57,7 +57,6 @@ export class AppComponent implements OnInit {
     'modifierExtension'
   ]; 
   jsonObject: AnyObject = {};
-  jsonString: string = '';
   counter = 0;
   objectLength = 5;
 
@@ -70,7 +69,7 @@ export class AppComponent implements OnInit {
   }
 
   onSelect(event: Event): void {
-    this.jsonString = '';
+    this.jsonObject = {};
     const resource = (<HTMLInputElement>event?.target).value;
     if (typeof resource === 'string') {
       this.completeObject.required = this.definitions[resource]['required'];
@@ -135,9 +134,9 @@ export class AppComponent implements OnInit {
               if (itemObject.$ref.includes('/')) {
                 itemObject.$ref = itemObject.$ref.split('/')?.[2];
               }
-              if (itemObject.$ref.charAt(0) === itemObject.$ref.charAt(0).toUpperCase()) {
-                await this.getItemPathAndCheck(itemObject.$ref, itemObject).then((res: FormObject) => itemObject = res);
-              }
+              // if (itemObject.$ref.charAt(0) === itemObject.$ref.charAt(0).toUpperCase()) {
+              //   await this.getItemPathAndCheck(itemObject.$ref, itemObject).then((res: FormObject) => itemObject = res);
+              // }
               if (itemObject) {
                 if (group.itemReferenced) {
                   group.itemReferenced[itemKey] = itemObject;
@@ -157,19 +156,12 @@ export class AppComponent implements OnInit {
     });
   }
 
-  onSubmit(event: Event): string {
-    console.log(event);
-    this.jsonString = JSON.stringify(this.jsonObject, undefined, 4);
-    console.log(this.jsonObject);
-    return this.jsonString;
-  }
 
   // TODO:
   // if type is array - give ability to add more than one
   // if pattern - apply to input
   // can add description as tooltip
   // create form inputs dynamically from object -- keep correct order
-  // Show output of form as JSON object in text area
   // Make JSON downloadable
   // Add ability to create references
   // Make data two way - if you paste a JSON in the text area, it should be able to fill out the form (validates)
@@ -179,5 +171,6 @@ export class AppComponent implements OnInit {
   // if starts with _ - disregard for now as it's an extension
   // if it's language, implicitRules, extension, contained, meta, modifierExtension - disregard for now
   // if items or ref - check the reference and pull that object in
+  // Show output of form as JSON object in text area
 
 }
