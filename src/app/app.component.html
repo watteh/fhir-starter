@@ -7,7 +7,7 @@
     </option>
   </select>
 </nav>
-<div class="container pt-5">
+<div class="container py-5">
   <div class="row justify-content-between">
     <div class="col-12 col-md-5">
       <p>Resource fields:</p>
@@ -18,9 +18,28 @@
             <!-- <button type="button" class="btn btn-secondary" data-toggle="tooltip" data-placement="right" [title]="completeObject?.properties?.[field.key]?.description">
               i
             </button> -->
-            <input id="{{field.key}}" name="{{field.key}}" type="{{field.value.$ref}}" class="form-control" [(ngModel)]="jsonObject[field.key]"
-              [attr.required]="completeObject.required?.includes(field.key)">
-            <span>{{field.value.$ref}}</span>
+            <ng-container *ngIf="field.value.$ref">
+              <ng-container *ngIf="field.value.$ref === 'id' || field.value.$ref === 'string' || field.value.$ref === 'uri'">
+                <input id="{{field.key}}" name="{{field.key}}" type="text" class="form-control" [(ngModel)]="jsonObject[field.key]"
+                  [attr.required]="completeObject.required?.includes(field.key)">
+              </ng-container>
+              <ng-container *ngIf="field.value.$ref === 'boolean'">
+                  <select class="form-control" id="{{field.key}}" name="{{field.key}}" [(ngModel)]="jsonObject[field.key]">
+                    <option [ngValue]=""></option>
+                    <option [ngValue]="true">true</option>
+                    <option [ngValue]="false">false</option>
+                  </select>
+              </ng-container>
+            </ng-container>
+            <ng-container *ngIf="field.value.const">
+              <input id="{{field.key}}" name="{{field.key}}" placeholder="{{field.value.const}}" value="{{field.value.const}}" type="text" class="form-control"
+                [attr.required]="completeObject.required?.includes(field.key)" disabled>
+            </ng-container>
+            <!-- <ng-container *ngIf="field.value.$ref === 'id' || field.value.$ref === 'string' || field.value.$ref === 'uri'">
+              <input id="{{field.key}}" name="{{field.key}}" type="text" class="form-control" [(ngModel)]="jsonObject[field.key]"
+                [attr.required]="completeObject.required?.includes(field.key)">
+            </ng-container>
+            <span>{{field.value.$ref}}</span> -->
           </div>
         </ng-container>
       </form>

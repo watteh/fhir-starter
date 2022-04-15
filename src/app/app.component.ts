@@ -70,6 +70,7 @@ export class AppComponent implements OnInit {
 
   onSelect(event: Event): void {
     this.jsonObject = {};
+    this.objectLength = 5;
     const resource = (<HTMLInputElement>event?.target).value;
     if (typeof resource === 'string') {
       this.completeObject.required = this.definitions[resource]['required'];
@@ -80,7 +81,7 @@ export class AppComponent implements OnInit {
           methodFormObject = res
           if (methodFormObject) {
             formObjectArray[key] = methodFormObject;
-            this.jsonObject[key] = '';
+            this.jsonObject[key] = methodFormObject.const ? methodFormObject.const : '';
             this.objectLength = this.objectLength + 1
           }
         });
@@ -165,6 +166,8 @@ export class AppComponent implements OnInit {
   // Make JSON downloadable
   // Add ability to create references
   // Make data two way - if you paste a JSON in the text area, it should be able to fill out the form (validates)
+  // Add ability to post resource via token or creds
+  // Add dynamic forms
   
   // DONE:
   // schema.definitions.resource.required array - if property key is within, then this field is required (red star)
